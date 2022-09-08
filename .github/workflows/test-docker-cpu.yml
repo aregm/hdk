@@ -64,7 +64,8 @@ jobs:
       - name: Install
         run: |
           docker exec hdk-build.${{ inputs.name }} cmake --install /_work/build/
-          docker exec -u ghrunner hdk-build.${{ inputs.name }} sh -c 'git clone https://github.com/intel-ai/modin.git && cd modin && checkout ienkovich/pyhdk && pip install -e .'
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} sh -c 'cd /_work && git clone https://github.com/intel-ai/modin.git && cd modin && checkout ienkovich/pyhdk && pip install -e .'
+
 
       - name: Run tests
         run: |
