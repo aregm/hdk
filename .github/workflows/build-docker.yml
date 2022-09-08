@@ -66,7 +66,7 @@ jobs:
       - name: Build the project
         run: |
           docker exec -u ghrunner hdk-build.${{ inputs.name }} cmake --build /_work/build/ --parallel 2
-          docker exec -u ghrunner hdk-build.${{ inputs.name }} tar -zcf /tmp/hdk-build.tgz -C /_work .
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} tar -zcf /tmp/build.tgz -C /_work .
           docker cp hdk-build.${{ inputs.name }}:/tmp/build.tgz .
      
       - name: Upload build and src files

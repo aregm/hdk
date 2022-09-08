@@ -19,4 +19,4 @@ jobs:
 
   test-cuda-docker:
     needs: build-docker
-    uses: ./.github/workflows/test-docker.yml
+    uses: ./.github/workflows/test-docker-cpu.yml
