@@ -11,6 +11,12 @@ on:
       - 'docs/**'
 
 jobs:
-  build:
-    uses: ./.github/workflows/modin.yml
+#  build:
+#    uses: ./.github/workflows/modin.yml
 
+  build-docker:
+    uses: ./.github/workflows/build-docker.yml
+
+  test-cuda-docker:
+    needs: build-docker
+    uses: ./.github/workflows/test-docker.yml
