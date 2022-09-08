@@ -39,10 +39,13 @@ jobs:
       - name: Start the container
         run:  |
           docker run -id --name hdk-build.${{ inputs.name }} --network host --device /dev/nvidia-caps/nvidia-cap2:/dev/nvidia-caps/nvidia-cap2 --device /dev/nvidia-caps/nvidia-cap1:/dev/nvidia-caps/nvidia-cap1 --device /dev/nvidia-modeset:/dev/nvidia-modeset --device /dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools --device /dev/nvidia-uvm:/dev/nvidia-uvm --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl hdk-build.${{ inputs.name }}:latest
-          docker cp build.tgz hdk-build.${{ inputs.name }}:/omniscidb
+          docker exec hdk-build.${{ inputs.name }} mkdir -p /_work/
+          docker cp build.tgz hdk-build.${{ inputs.name }}:/_work
+          docker exec hdk-build.${{ inputs.name }} chown -R ghrunner:ghrunner /_work
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} tar -zxf /omniscidb/build.tgz -C /_work
 
       - name: Test
-        run: docker exec -u ghrunner hdk-build.${{ inputs.name }} bash /omniscidb/scripts/conda/test.sh
+        run: docker exec -u ghrunner hdk-build.${{ inputs.name }} bash /_workscripts/conda/test.sh
 
       - name: Stop the container
         if: always()
