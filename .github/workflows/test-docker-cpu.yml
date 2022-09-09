@@ -69,6 +69,6 @@ jobs:
 
       - name: Run tests
         run: |
-          docker exec -u ghrunner hdk-build.${{ inputs.name }} python -c 'import pyhdk'
-          docker exec -u ghrunner hdk-build.${{ inputs.name }} python /_work/python/tests/modin/modin_smoke_test.py
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} python3 -c 'import pyhdk'
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} python3 /_work/python/tests/modin/modin_smoke_test.py
 
