@@ -70,7 +70,8 @@ jobs:
       - name: Run tests
         run: |
           set -vx
-          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -c 'import os; print(os.environ)'
-          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -c 'import pyhdk'
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} echo 'import pyhdk' >import-pyhdk.py
+          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -m trace -t import-pyhdk.py
+#          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -c 'import pyhdk'
           docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 /_work/python/tests/modin/modin_smoke_test.py
 
