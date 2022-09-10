@@ -66,12 +66,11 @@ jobs:
           docker exec hdk-build.${{ inputs.name }} cmake --install /_work/build/
           docker exec -u ghrunner hdk-build.${{ inputs.name }} sh -c 'cd /_work && git clone https://github.com/intel-ai/modin.git && cd modin && git checkout ienkovich/pyhdk && pip install -e .'
 
-
       - name: Run tests
         run: |
           set -vx
-          docker exec -u ghrunner hdk-build.${{ inputs.name }} echo 'import pyhdk' >import-pyhdk.py
-          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -m trace -t import-pyhdk.py
+          docker exec -u ghrunner hdk-build.${{ inputs.name }} sh -c 'echo "import pyhdk" >/_work/import-pyhdk.py'
+          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -m trace -t /_work/import-pyhdk.py
 #          docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 -c 'import pyhdk'
           docker exec -u ghrunner --env LD_LIBRARY_PATH=/usr/local/lib hdk-build.${{ inputs.name }} python3 /_work/python/tests/modin/modin_smoke_test.py
 
