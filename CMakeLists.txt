@@ -75,8 +75,10 @@ if(BUILD_SHARED_LIBS)
   set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 endif()
 
-# Copy ThirdParty to build dir so OmniSciDB dependencies can be copied over. Note that third_party is available internally for HDK specific dependencies.
-file(COPY "${CMAKE_SOURCE_DIR}/ThirdParty" DESTINATION "${CMAKE_BINARY_DIR}/")
+# Copy ThirdParty to build dir so OmniSciDB dependencies can be copied over.
+# Note that third_party is available internally for HDK specific dependencies.
+# [TODO] Should be removed after the jit-engine branch is merged back
+# file(COPY "${CMAKE_SOURCE_DIR}/ThirdParty" DESTINATION "${CMAKE_BINARY_DIR}/")
 
 # External Dependencies
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
@@ -200,7 +202,7 @@ endif()
 
 install(TARGETS OSDependent Logger Shared Utils Calcite ArrowStorage StringDictionary DataMgr CudaMgr SchemaMgr L0Mgr QueryEngine Analyzer IR ConfigBuilder SqliteConnector RUNTIME)
 
-add_executable(TestDriver apps/TestDriver.cpp)
+add_executable(TestDriver examples/apps/TestDriver.cpp)
 
 target_link_libraries(TestDriver PRIVATE HDK)
 target_link_libraries(TestDriver PRIVATE ${Arrow_LIBRARIES} IR QueryEngine StringDictionary Analyzer Shared OSDependent Logger ${llvm_libs} ${Boost_LIBRARIES})
